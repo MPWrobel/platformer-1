@@ -8,6 +8,12 @@ var Game = (function () {
     Game.prototype.preload = function () {
     };
     Game.prototype.create = function () {
+        var style = {
+            font: "65px Arial",
+            fill: "white",
+            align: "center"
+        };
+        this.game.add.text(100, 100, "hello world", style);
     };
     return Game;
 }());
