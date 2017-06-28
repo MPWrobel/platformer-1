@@ -6,7 +6,7 @@ var Game = (function () {
         });
     }
     Game.prototype.preload = function () {
-        this.game.load.tilemap('map1', '../assets/map1.json?' + new Date().getTime(), null, Phaser.Tilemap.TILED_JSON);
+        this.game.load.tilemap('map1', '../assets/map1.json?' + new Date().getTime(), null, Phaser.Tilemap.TILED_JSON); //obejście pamięci podręcznej przeglądarki
         this.game.load.image('tileset1', '../assets/tileset.png');
     };
     Game.prototype.create = function () {
@@ -17,6 +17,4 @@ var Game = (function () {
     };
     return Game;
 }());
-window.onload = function () {
-    var game = new Game();
-};
+new Game();
