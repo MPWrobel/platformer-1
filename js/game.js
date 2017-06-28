@@ -6,7 +6,7 @@ var Game = (function () {
         });
     }
     Game.prototype.preload = function () {
-        this.game.load.tilemap('map1', '../assets/map1.json', null, Phaser.Tilemap.TILED_JSON);
+        this.game.load.tilemap('map1', '../assets/map1.json?' + new Date().getTime(), null, Phaser.Tilemap.TILED_JSON);
         this.game.load.image('tileset1', '../assets/tileset.png');
     };
     Game.prototype.create = function () {
