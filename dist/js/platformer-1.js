@@ -56,7 +56,7 @@ var Character = (function (_super) {
     function Character(game, x, y, key) {
         var _this = _super.call(this, game, x, y, key) || this;
         game.physics.enable(_this, Phaser.Physics.ARCADE);
-        _this.body.gravity.y = 150;
+        _this.body.gravity.y = 300;
         return _this;
     }
     return Character;
@@ -82,6 +82,10 @@ var Player = (function (_super) {
         else if (this.game.input.keyboard.isDown(Phaser.Keyboard.D) ||
             this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
             this.body.velocity.x = 100;
+        }
+        if (this.body.onFloor()
+            && this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+            this.body.velocity.y = -350;
         }
     };
     return Player;

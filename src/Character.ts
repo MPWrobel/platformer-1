@@ -5,7 +5,7 @@ class Character extends Phaser.Sprite {
         super(game, x, y, key);
         game.physics.enable(this, Phaser.Physics.ARCADE);
 
-        this.body.gravity.y = 150;
+        this.body.gravity.y = 300;
 
     }
 
