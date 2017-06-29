@@ -1,12 +1,8 @@
 class MainMenu extends Phaser.State {
 
-    preload() {
-
-        console.log('State: MainMenu');
-
-    }
-
     create() {
+
+        console.log('State: MainMenu'); 
 
         this.game.state.start('Game');
 

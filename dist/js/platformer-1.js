@@ -15,6 +15,7 @@ var Boot = (function (_super) {
     }
     Boot.prototype.preload = function () {
         console.log('State: Boot');
+        this.load.image('preloaderBar', 'assets/preload.png');
     };
     Boot.prototype.create = function () {
         this.game.state.start('Preloader');
@@ -28,6 +29,11 @@ var Preloader = (function (_super) {
     }
     Preloader.prototype.preload = function () {
         console.log('State: Preloader');
+        this.preloadBar = this.add.sprite(0, 100, 'preloaderBar');
+        this.load.setPreloadSprite(this.preloadBar);
+        this.load.tilemap('map1', '../assets/map1.json?' + new Date().getTime(), null, Phaser.Tilemap.TILED_JSON); //obejście pamięci podręcznej przeglądarki
+        this.load.image('tileset1', '../assets/tileset.png');
+        this.load.image('player', '../assets/stone.png');
     };
     Preloader.prototype.create = function () {
         this.game.state.start('MainMenu');
@@ -39,29 +45,52 @@ var MainMenu = (function (_super) {
     function MainMenu() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    MainMenu.prototype.preload = function () {
-        console.log('State: MainMenu');
-    };
     MainMenu.prototype.create = function () {
+        console.log('State: MainMenu');
         this.game.state.start('Game');
     };
     return MainMenu;
 }(Phaser.State));
+var Character = (function (_super) {
+    __extends(Character, _super);
+    function Character(game, x, y, key) {
+        return _super.call(this, game, x, y, key) || this;
+    }
+    return Character;
+}(Phaser.Sprite));
+/// <reference path="Character.ts"/>
+var Player = (function (_super) {
+    __extends(Player, _super);
+    function Player(game, x, y, hp) {
+        var _this = _super.call(this, game, x, y, 'player') || this;
+        _this.hp = hp;
+        game.add.existing(_this);
+        return _this;
+    }
+    Player.prototype.update = function () {
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+            this.x--;
+        }
+        else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+            this.x++;
+        }
+    };
+    return Player;
+}(Character));
+/// <reference path="Player.ts"/>
 var Game = (function (_super) {
     __extends(Game, _super);
     function Game() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    Game.prototype.preload = function () {
-        console.log('State: Game');
-        this.game.load.tilemap('map1', '../assets/map1.json?' + new Date().getTime(), null, Phaser.Tilemap.TILED_JSON); //obejście pamięci podręcznej przeglądarki
-        this.game.load.image('tileset1', '../assets/tileset.png');
-    };
     Game.prototype.create = function () {
-        this.game.stage.backgroundColor = '#ccf5ff';
+        console.log('State: Game');
+        this.stage.backgroundColor = '#00BFFF';
         this.map = this.game.add.tilemap('map1');
         this.map.addTilesetImage('tileset1', 'tileset1');
         this.map.createLayer('layer1');
+        this.player = new Player(this.game, 50, 400, 100);
+        console.log(this.player);
     };
     return Game;
 }(Phaser.State));
@@ -83,18 +112,3 @@ var App = (function (_super) {
     return App;
 }(Phaser.Game));
 new App();
-var Character = (function () {
-    function Character(x, y, hp) {
-        this.x = x;
-        this.y = y;
-        this.hp = hp;
-    }
-    return Character;
-}());
-var Player = (function (_super) {
-    __extends(Player, _super);
-    function Player(x, y, hp) {
-        return _super.call(this, x, y, hp) || this;
-    }
-    return Player;
-}(Character));

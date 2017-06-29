@@ -1,13 +1,9 @@
-class Character {
-    
-    x: number;
-    y: number;
-    hp: number;
+class Character extends Phaser.Sprite {
 
-    constructor(x, y, hp) {
-        this.x = x;
-        this.y = y;
-        this.hp = hp;
-    }
+    constructor(game: Phaser.Game, x: number, y: number, key) {
+
+        super(game, x, y, key);
+   
+ }
 
 }
