@@ -29,7 +29,7 @@ var Preloader = (function (_super) {
     }
     Preloader.prototype.preload = function () {
         console.log('State: Preloader');
-        this.preloadBar = this.add.sprite(0, 100, 'preloaderBar');
+        this.preloadBar = this.add.sprite(200, 250, 'preloaderBar');
         this.load.setPreloadSprite(this.preloadBar);
         this.load.tilemap('map1', '../assets/map1.json?' + new Date().getTime(), null, Phaser.Tilemap.TILED_JSON); //obejście pamięci podręcznej przeglądarki
         this.load.image('tileset1', '../assets/tileset.png');
@@ -54,25 +54,34 @@ var MainMenu = (function (_super) {
 var Character = (function (_super) {
     __extends(Character, _super);
     function Character(game, x, y, key) {
-        return _super.call(this, game, x, y, key) || this;
+        var _this = _super.call(this, game, x, y, key) || this;
+        game.physics.enable(_this, Phaser.Physics.ARCADE);
+        _this.body.gravity.y = 150;
+        return _this;
     }
     return Character;
 }(Phaser.Sprite));
 /// <reference path="Character.ts"/>
 var Player = (function (_super) {
     __extends(Player, _super);
-    function Player(game, x, y, hp) {
+    function Player(game, layer, x, y, hp) {
         var _this = _super.call(this, game, x, y, 'player') || this;
+        _this.layer = layer;
         _this.hp = hp;
+        _this.body.collideWorldBounds = true;
         game.add.existing(_this);
         return _this;
     }
     Player.prototype.update = function () {
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.A)) {
-            this.x--;
+        this.game.physics.arcade.collide(this, this.layer);
+        this.body.velocity.x = 0;
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.A) ||
+            this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+            this.body.velocity.x = -100;
         }
-        else if (this.game.input.keyboard.isDown(Phaser.Keyboard.D)) {
-            this.x++;
+        else if (this.game.input.keyboard.isDown(Phaser.Keyboard.D) ||
+            this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+            this.body.velocity.x = 100;
         }
     };
     return Player;
@@ -86,11 +95,12 @@ var Game = (function (_super) {
     Game.prototype.create = function () {
         console.log('State: Game');
         this.stage.backgroundColor = '#00BFFF';
-        this.map = this.game.add.tilemap('map1');
-        this.map.addTilesetImage('tileset1', 'tileset1');
-        this.map.createLayer('layer1');
-        this.player = new Player(this.game, 50, 400, 100);
-        console.log(this.player);
+        var map = this.game.add.tilemap('map1');
+        map.addTilesetImage('tileset1', 'tileset1');
+        map.setCollisionBetween(1, 64);
+        var layer = map.createLayer('layer1');
+        var player = new Player(this.game, layer, 50, 200, 100);
+        console.log(player);
     };
     return Game;
 }(Phaser.State));
