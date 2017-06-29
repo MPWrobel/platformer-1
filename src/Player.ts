@@ -34,7 +34,9 @@ class Player extends Character {
         }
 
         if (this.body.onFloor()
-        && this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+        && (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) || 
+        this.game.input.keyboard.isDown(Phaser.Keyboard.W) || 
+        this.game.input.keyboard.isDown(Phaser.Keyboard.UP))) {
             
             this.body.velocity.y = -350;
         

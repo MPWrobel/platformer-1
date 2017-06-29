@@ -84,7 +84,7 @@ var Player = (function (_super) {
             this.body.velocity.x = 100;
         }
         if (this.body.onFloor()
-            && this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+            && (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) || this.game.input.keyboard.isDown(Phaser.Keyboard.W) || this.game.input.keyboard.isDown(Phaser.Keyboard.UP))) {
             this.body.velocity.y = -350;
         }
     };
