@@ -16,11 +16,11 @@ class Player extends Character {
     update() {
 
 
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.A)) {
 
             this.x--;
 
-        } else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+        } else if (this.game.input.keyboard.isDown(Phaser.Keyboard.D)) {
 
             this.x++;
 

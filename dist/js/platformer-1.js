@@ -68,10 +68,10 @@ var Player = (function (_super) {
         return _this;
     }
     Player.prototype.update = function () {
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.A)) {
             this.x--;
         }
-        else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+        else if (this.game.input.keyboard.isDown(Phaser.Keyboard.D)) {
             this.x++;
         }
     };
