@@ -10,7 +10,6 @@ class Game {
         });
     }
 
-
     preload() {
         this.game.load.tilemap('map1', '../assets/map1.json?' + new Date().getTime(), null, Phaser.Tilemap.TILED_JSON); //obejście pamięci podręcznej przeglądarki
         this.game.load.image('tileset1', '../assets/tileset.png');
