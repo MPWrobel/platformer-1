@@ -13,6 +13,7 @@ class Player extends Character {
         this.body.collideWorldBounds = true;
 
         game.add.existing(this);
+        this.game.camera.follow(this);
 
     }
 

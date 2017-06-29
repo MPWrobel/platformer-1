@@ -31,7 +31,7 @@ var Preloader = (function (_super) {
         console.log('State: Preloader');
         this.preloadBar = this.add.sprite(200, 250, 'preloaderBar');
         this.load.setPreloadSprite(this.preloadBar);
-        this.load.tilemap('map1', '../assets/map1.json?' + new Date().getTime(), null, Phaser.Tilemap.TILED_JSON); //obejście pamięci podręcznej przeglądarki
+        this.load.tilemap('map1', '../assets/map3.json?' + new Date().getTime(), null, Phaser.Tilemap.TILED_JSON); //obejście pamięci podręcznej przeglądarki
         this.load.image('tileset1', '../assets/tileset.png');
         this.load.image('player', '../assets/stone.png');
     };
@@ -70,6 +70,7 @@ var Player = (function (_super) {
         _this.hp = hp;
         _this.body.collideWorldBounds = true;
         game.add.existing(_this);
+        _this.game.camera.follow(_this);
         return _this;
     }
     Player.prototype.update = function () {
@@ -84,7 +85,9 @@ var Player = (function (_super) {
             this.body.velocity.x = 100;
         }
         if (this.body.onFloor()
-            && (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) || this.game.input.keyboard.isDown(Phaser.Keyboard.W) || this.game.input.keyboard.isDown(Phaser.Keyboard.UP))) {
+            && (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) ||
+                this.game.input.keyboard.isDown(Phaser.Keyboard.W) ||
+                this.game.input.keyboard.isDown(Phaser.Keyboard.UP))) {
             this.body.velocity.y = -350;
         }
     };
@@ -102,7 +105,9 @@ var Game = (function (_super) {
         var map = this.game.add.tilemap('map1');
         map.addTilesetImage('tileset1', 'tileset1');
         map.setCollisionBetween(1, 64);
+        this.game.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         var layer = map.createLayer('layer1');
+        map.createLayer('clouds');
         var player = new Player(this.game, layer, 50, 200, 100);
         console.log(player);
     };
