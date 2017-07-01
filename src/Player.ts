@@ -16,8 +16,8 @@ class Player extends Character {
         this.anchor.setTo(.5, .5);
         this.scale.setTo(4, 4);
 
-        this.animations.add('idle', new Frames(10, 19), 5, true);
-        this.animations.add('walk', new Frames(20, 29), 5, true);
+        this.animations.add('idle', new Frames(10, 19), 4, true);
+        this.animations.add('walk', new Frames(20, 29), 4, true);
 
         this.animations.play('idle');
 
@@ -31,7 +31,8 @@ class Player extends Character {
 
         this.body.velocity.x = 0;
 
-        if (!(this.game.input.keyboard.isDown(Phaser.Keyboard.A) ||
+        if (!this.body.onFloor() ||
+        !(this.game.input.keyboard.isDown(Phaser.Keyboard.A) ||
                 this.game.input.keyboard.isDown(Phaser.Keyboard.D) ||
                 this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) ||
                 this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)))

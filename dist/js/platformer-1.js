@@ -73,8 +73,8 @@ var Player = (function (_super) {
         _this.game.camera.follow(_this);
         _this.anchor.setTo(.5, .5);
         _this.scale.setTo(4, 4);
-        _this.animations.add('idle', new Frames(10, 19), 5, true);
-        _this.animations.add('walk', new Frames(20, 29), 5, true);
+        _this.animations.add('idle', new Frames(10, 19), 4, true);
+        _this.animations.add('walk', new Frames(20, 29), 4, true);
         _this.animations.play('idle');
         game.add.existing(_this);
         return _this;
@@ -82,10 +82,11 @@ var Player = (function (_super) {
     Player.prototype.update = function () {
         this.game.physics.arcade.collide(this, this.layer);
         this.body.velocity.x = 0;
-        if (!(this.game.input.keyboard.isDown(Phaser.Keyboard.A) ||
-            this.game.input.keyboard.isDown(Phaser.Keyboard.D) ||
-            this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) ||
-            this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)))
+        if (!this.body.onFloor() ||
+            !(this.game.input.keyboard.isDown(Phaser.Keyboard.A) ||
+                this.game.input.keyboard.isDown(Phaser.Keyboard.D) ||
+                this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) ||
+                this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)))
             this.animations.play('idle');
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.A) ||
             this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
