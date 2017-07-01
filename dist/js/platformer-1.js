@@ -159,3 +159,4 @@ var App = (function (_super) {
     return App;
 }(Phaser.Game));
 new App();
+//# sourceMappingURL=platformer-1.js.map
