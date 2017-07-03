@@ -2,7 +2,7 @@
 
 class Player extends Character {
 
-    layer: Phaser.TilemapLayer
+    layer: Phaser.TilemapLayer;
     hp: number = 100;
     points: number = 0;
 

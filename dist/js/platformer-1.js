@@ -15,6 +15,7 @@ var Boot = (function (_super) {
     }
     Boot.prototype.preload = function () {
         console.log('State: Boot');
+        this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.load.image('preloaderBar', 'assets/preload.png');
     };
     Boot.prototype.create = function () {
@@ -136,8 +137,8 @@ var Game = (function (_super) {
         this.game.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         var layer = map.createLayer('layer1');
         map.createLayer('clouds');
-        var player = new Player(this.game, layer, 50, 900);
-        console.log(player);
+        this.player = new Player(this.game, layer, 50, 900);
+        console.log(this.player);
     };
     return Game;
 }(Phaser.State));
@@ -145,18 +146,20 @@ var Game = (function (_super) {
 /// <reference path="Preloader.ts"/>
 /// <reference path="MainMenu.ts"/>
 /// <reference path="Game.ts"/>
-var App = (function (_super) {
-    __extends(App, _super);
+var App = (function () {
     function App() {
-        var _this = _super.call(this, 800, 600, Phaser.AUTO, 'content', null, false, false) || this;
-        _this.state.add('Boot', Boot);
-        _this.state.add('Preloader', Preloader);
-        _this.state.add('MainMenu', MainMenu);
-        _this.state.add('Game', Game);
-        _this.state.start('Boot');
-        return _this;
+        this.boot = new Boot();
+        this.preloader = new Preloader();
+        this.mainMenu = new MainMenu();
+        this.game = new Game();
+        this.app = new Phaser.Game(800, 600, Phaser.AUTO, 'content', null, false, false);
+        this.app.state.add('Boot', this.boot);
+        this.app.state.add('Preloader', this.preloader);
+        this.app.state.add('MainMenu', this.mainMenu);
+        this.app.state.add('Game', this.game);
+        this.app.state.start('Boot');
     }
     return App;
-}(Phaser.Game));
+}());
 var app = new App();
 //# sourceMappingURL=platformer-1.js.map

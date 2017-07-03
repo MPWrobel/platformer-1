@@ -3,18 +3,24 @@
 /// <reference path="MainMenu.ts"/>
 /// <reference path="Game.ts"/>
 
-class App extends Phaser.Game {
+class App  {
+
+    app: Phaser.Game;
+    boot: Boot = new Boot();
+    preloader: Preloader = new Preloader();
+    mainMenu: MainMenu = new MainMenu();
+    game: Game = new Game();
 
     constructor() {
 
-        super(800, 600, Phaser.AUTO, 'content', null, false, false);
+        this.app = new Phaser.Game(800, 600, Phaser.AUTO, 'content', null, false, false);
 
-        this.state.add('Boot', Boot);
-        this.state.add('Preloader', Preloader);
-        this.state.add('MainMenu', MainMenu);
-        this.state.add('Game', Game);
+        this.app.state.add('Boot', this.boot);
+        this.app.state.add('Preloader', this.preloader);
+        this.app.state.add('MainMenu', this.mainMenu);
+        this.app.state.add('Game', this.game);
 
-        this.state.start('Boot');
+        this.app.state.start('Boot');
 
     }
 

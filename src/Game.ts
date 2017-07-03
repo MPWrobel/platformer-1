@@ -3,6 +3,8 @@
 
 class Game extends Phaser.State {
 
+  player: Player;
+
   create() {
 
     console.log('State: Game');
@@ -17,9 +19,9 @@ class Game extends Phaser.State {
     let layer = map.createLayer('layer1');
     map.createLayer('clouds');
 
-    const player = new Player(this.game, layer, 50, 900);
+    this.player = new Player(this.game, layer, 50, 900);
 
-    console.log(player);
+    console.log(this.player);
 
   }
 
