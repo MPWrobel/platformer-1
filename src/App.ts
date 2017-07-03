@@ -20,4 +20,4 @@ class App extends Phaser.Game {
 
 }
 
-new App();
+const app = new App();

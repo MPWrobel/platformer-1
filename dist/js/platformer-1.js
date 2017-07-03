@@ -32,7 +32,7 @@ var Preloader = (function (_super) {
         this.preloadBar = this.add.sprite(200, 250, 'preloaderBar');
         this.load.setPreloadSprite(this.preloadBar);
         this.load.tilemap('map1', '../assets/map1.json?' + new Date().getTime(), null, Phaser.Tilemap.TILED_JSON); //obejście pamięci podręcznej przeglądarki
-        this.load.image('tileset1', '../assets/tileset.png');
+        this.load.image('tileset', '../assets/tileset.png');
         this.load.atlasJSONArray('player', '../assets/player.png', '../assets/player.json');
     };
     Preloader.prototype.create = function () {
@@ -131,7 +131,7 @@ var Game = (function (_super) {
         console.log('State: Game');
         this.stage.backgroundColor = '#00BFFF';
         var map = this.game.add.tilemap('map1');
-        map.addTilesetImage('tileset1', 'tileset1');
+        map.addTilesetImage('tileset', 'tileset');
         map.setCollisionBetween(1, 64);
         this.game.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         var layer = map.createLayer('layer1');
@@ -158,5 +158,5 @@ var App = (function (_super) {
     }
     return App;
 }(Phaser.Game));
-new App();
+var app = new App();
 //# sourceMappingURL=platformer-1.js.map

@@ -10,7 +10,7 @@ class Game extends Phaser.State {
     this.stage.backgroundColor = '#00BFFF'
 
     let map = this.game.add.tilemap('map1');
-    map.addTilesetImage('tileset1', 'tileset1');
+    map.addTilesetImage('tileset', 'tileset');
     map.setCollisionBetween(1, 64);
     this.game.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
