@@ -5,6 +5,8 @@ class Player extends Character {
     layer: Phaser.TilemapLayer;
     hp: number = 100;
     points: number = 0;
+    velocity: number = 200;
+    jump: number = 600;
 
     constructor(game: Phaser.Game, layer: Phaser.TilemapLayer, x: number, y: number) {
 
@@ -41,14 +43,14 @@ class Player extends Character {
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.A) ||
             this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
 
-            this.body.velocity.x = -200;
+            this.body.velocity.x = -this.velocity;
             this.scale.setTo(-4, 4);
             this.animations.play('walk');
 
         } else if (this.game.input.keyboard.isDown(Phaser.Keyboard.D) ||
             this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
 
-            this.body.velocity.x = 200;
+            this.body.velocity.x = this.velocity;
             this.scale.setTo(4, 4);
             this.animations.play('walk');
 
@@ -59,7 +61,7 @@ class Player extends Character {
                 this.game.input.keyboard.isDown(Phaser.Keyboard.W) ||
                 this.game.input.keyboard.isDown(Phaser.Keyboard.UP))) {
 
-            this.body.velocity.y = -600;
+            this.body.velocity.y = -this.jump;
 
         }
 

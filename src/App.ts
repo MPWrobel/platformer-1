@@ -13,7 +13,7 @@ class App  {
 
     constructor() {
 
-        this.app = new Phaser.Game(800, 600, Phaser.AUTO, 'content', null, false, false);
+        this.app = new Phaser.Game(1280, 720, Phaser.AUTO, 'content', null, false, false);
 
         this.app.state.add('Boot', this.boot);
         this.app.state.add('Preloader', this.preloader);

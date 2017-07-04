@@ -8,8 +8,7 @@ class Preloader extends Phaser.State {
 
         this.preloadBar = this.add.sprite(200, 250, 'preloaderBar');
         this.load.setPreloadSprite(this.preloadBar);
-
-        this.load.tilemap('map1', '../assets/map1.json?' + new Date().getTime(), null, Phaser.Tilemap.TILED_JSON); //obejście pamięci podręcznej przeglądarki
+        this.load.tilemap('map1', null, this.cache.getJSON('mapJSON1'), Phaser.Tilemap.TILED_JSON);
         this.load.image('tileset', '../assets/tileset.png');
         this.load.atlasJSONArray('player', '../assets/player.png', '../assets/player.json');
     }

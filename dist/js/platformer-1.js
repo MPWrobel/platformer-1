@@ -17,6 +17,8 @@ var Boot = (function (_super) {
         console.log('State: Boot');
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.load.image('preloaderBar', 'assets/preload.png');
+        this.load.json('mapJSON1', '../assets/map1.json?' + new Date().getTime());
+        this.load.json('mapJSON1', '../assets/map1.json?' + new Date().getTime());
     };
     Boot.prototype.create = function () {
         this.game.state.start('Preloader');
@@ -32,7 +34,7 @@ var Preloader = (function (_super) {
         console.log('State: Preloader');
         this.preloadBar = this.add.sprite(200, 250, 'preloaderBar');
         this.load.setPreloadSprite(this.preloadBar);
-        this.load.tilemap('map1', '../assets/map1.json?' + new Date().getTime(), null, Phaser.Tilemap.TILED_JSON); //obejście pamięci podręcznej przeglądarki
+        this.load.tilemap('map1', null, this.cache.getJSON('mapJSON1'), Phaser.Tilemap.TILED_JSON);
         this.load.image('tileset', '../assets/tileset.png');
         this.load.atlasJSONArray('player', '../assets/player.png', '../assets/player.json');
     };
@@ -69,6 +71,8 @@ var Player = (function (_super) {
         var _this = _super.call(this, game, x, y, 'player') || this;
         _this.hp = 100;
         _this.points = 0;
+        _this.velocity = 200;
+        _this.jump = 600;
         _this.layer = layer;
         _this.body.collideWorldBounds = true;
         _this.game.camera.follow(_this);
@@ -91,13 +95,13 @@ var Player = (function (_super) {
             this.animations.play('idle');
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.A) ||
             this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-            this.body.velocity.x = -200;
+            this.body.velocity.x = -this.velocity;
             this.scale.setTo(-4, 4);
             this.animations.play('walk');
         }
         else if (this.game.input.keyboard.isDown(Phaser.Keyboard.D) ||
             this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-            this.body.velocity.x = 200;
+            this.body.velocity.x = this.velocity;
             this.scale.setTo(4, 4);
             this.animations.play('walk');
         }
@@ -105,7 +109,7 @@ var Player = (function (_super) {
             (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) ||
                 this.game.input.keyboard.isDown(Phaser.Keyboard.W) ||
                 this.game.input.keyboard.isDown(Phaser.Keyboard.UP))) {
-            this.body.velocity.y = -600;
+            this.body.velocity.y = -this.jump;
         }
     };
     return Player;
@@ -121,8 +125,23 @@ var Frames = (function (_super) {
     }
     return Frames;
 }(Array));
+var Map = (function (_super) {
+    __extends(Map, _super);
+    function Map(game, number) {
+        var _this = _super.call(this, game, 'map' + number) || this;
+        _this.number = number;
+        _this.addTilesetImage('tileset', 'tileset');
+        _this.setCollisionBetween(1, 64);
+        return _this;
+    }
+    Map.prototype.get = function () {
+        return this.game.cache.getJSON('mapJSON' + this.number).objects;
+    };
+    return Map;
+}(Phaser.Tilemap));
 /// <reference path="Player.ts"/>
 /// <reference path="Frames.ts"/>
+/// <reference path="Map.ts"/>
 var Game = (function (_super) {
     __extends(Game, _super);
     function Game() {
@@ -131,14 +150,11 @@ var Game = (function (_super) {
     Game.prototype.create = function () {
         console.log('State: Game');
         this.stage.backgroundColor = '#00BFFF';
-        var map = this.game.add.tilemap('map1');
-        map.addTilesetImage('tileset', 'tileset');
-        map.setCollisionBetween(1, 64);
+        var map = new Map(this.game, 1);
         this.game.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         var layer = map.createLayer('layer1');
         map.createLayer('clouds');
-        this.player = new Player(this.game, layer, 50, 900);
-        console.log(this.player);
+        this.player = new Player(this.game, layer, map.get().player.x, map.get().player.y);
     };
     return Game;
 }(Phaser.State));
@@ -152,7 +168,7 @@ var App = (function () {
         this.preloader = new Preloader();
         this.mainMenu = new MainMenu();
         this.game = new Game();
-        this.app = new Phaser.Game(800, 600, Phaser.AUTO, 'content', null, false, false);
+        this.app = new Phaser.Game(1280, 720, Phaser.AUTO, 'content', null, false, false);
         this.app.state.add('Boot', this.boot);
         this.app.state.add('Preloader', this.preloader);
         this.app.state.add('MainMenu', this.mainMenu);
